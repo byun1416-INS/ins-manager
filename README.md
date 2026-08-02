@@ -26,3 +26,4 @@ ins-manager/
 ## 배포
 
 GitHub Pages에서 `main` 브랜치의 `/ (root)`를 배포합니다.
+배포 재시작
