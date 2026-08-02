@@ -168,7 +168,15 @@ function renderPayments(payments = {}) {
 
     const amountText = document.createElement("strong");
     amountText.className = "payment-amount";
-    amountText.textContent = `${amount.toLocaleString("ko-KR")}원`;
+
+    if (paid) {
+      const check = document.createElement("span");
+      check.className = "payment-check";
+      check.textContent = "✔";
+      amountText.append(check, ` ${amount.toLocaleString("ko-KR")}원`);
+    } else {
+      amountText.textContent = "0원";
+    }
 
     card.append(month, amountText);
     grid.appendChild(card);
