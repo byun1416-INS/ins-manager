@@ -119,6 +119,69 @@ function renderDocument(containerId, url) {
   container.appendChild(link);
 }
 
+
+const PAYMENT_MONTHS = [
+  ["08", "8월"],
+  ["09", "9월"],
+  ["10", "10월"],
+  ["11", "11월"],
+  ["12", "12월"],
+  ["01", "1월"],
+  ["02", "2월"],
+  ["03", "3월"],
+  ["04", "4월"],
+  ["05", "5월"],
+  ["06", "6월"],
+  ["07", "7월"],
+];
+
+function normalizeAmount(value) {
+  if (!hasValue(value)) return 0;
+  const normalized = String(value).replaceAll(",", "").replace(/[^\d.-]/g, "");
+  const number = Number(normalized);
+  return Number.isFinite(number) ? number : 0;
+}
+
+function renderPayments(payments = {}) {
+  const grid = element("paymentsGrid");
+  const summary = element("paymentSummary");
+  grid.replaceChildren();
+
+  let paidMonthCount = 0;
+  let totalPaid = 0;
+
+  for (const [key, label] of PAYMENT_MONTHS) {
+    const amount = normalizeAmount(payments?.[key]);
+    const paid = amount > 0;
+
+    if (paid) {
+      paidMonthCount += 1;
+      totalPaid += amount;
+    }
+
+    const card = document.createElement("article");
+    card.className = `payment-card ${paid ? "paid" : "unpaid"}`;
+
+    const month = document.createElement("span");
+    month.className = "payment-month";
+    month.textContent = label;
+
+    const amountText = document.createElement("strong");
+    amountText.className = "payment-amount";
+    amountText.textContent = `${amount.toLocaleString("ko-KR")}원`;
+
+    card.append(month, amountText);
+    grid.appendChild(card);
+  }
+
+  summary.textContent =
+    paidMonthCount > 0
+      ? `${paidMonthCount}개월 · 총 ${totalPaid.toLocaleString("ko-KR")}원`
+      : "입금내역 없음";
+
+  return { paidMonthCount, totalPaid };
+}
+
 function renderResult(data) {
   const issuedAt = displayText(
     data.certificate_issued_at,
@@ -148,12 +211,17 @@ function renderResult(data) {
   element("managerNames").textContent = displayText(data.manager_names);
   element("insuredMembers").textContent = displayText(data.insured_members);
 
+  const paymentInfo = renderPayments(data.payments || {});
+
   const issueStatus = element("issueStatus");
-  if (hasValue(data.certificate_issued_at)) {
+  if (hasValue(data.insurance_certificate_pdf) || hasValue(data.certificate_issued_at)) {
     issueStatus.textContent = "보험증권 발행완료";
     issueStatus.className = "issue-status issued";
+  } else if (paymentInfo.paidMonthCount > 0) {
+    issueStatus.textContent = "보험증권 발행대상";
+    issueStatus.className = "issue-status eligible";
   } else {
-    issueStatus.textContent = "보험증권 미발행";
+    issueStatus.textContent = "납부내역 없음";
     issueStatus.className = "issue-status not-issued";
   }
 

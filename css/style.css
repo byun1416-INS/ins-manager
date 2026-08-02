@@ -372,3 +372,106 @@ h1 {
     align-self: flex-start;
   }
 }
+
+.payments-section {
+  margin-top: 20px;
+  padding: 20px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--panel-soft);
+}
+
+.section-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.section-heading h3 {
+  margin: 0;
+  font-size: 20px;
+}
+
+.payment-summary {
+  flex: 0 0 auto;
+  padding: 8px 11px;
+  border-radius: 999px;
+  background: #eef3ff;
+  color: var(--primary);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.payments-grid {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.payment-card {
+  min-width: 0;
+  padding: 14px 10px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  text-align: center;
+  background: #fff;
+}
+
+.payment-card.paid {
+  border-color: #b7e4c7;
+  background: #eefaf2;
+}
+
+.payment-card.unpaid {
+  background: #f4f6f8;
+}
+
+.payment-month {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.payment-amount {
+  display: block;
+  font-size: 15px;
+  font-weight: 900;
+  overflow-wrap: anywhere;
+}
+
+.payment-card.paid .payment-amount {
+  color: var(--success);
+}
+
+.payment-card.unpaid .payment-amount {
+  color: var(--muted);
+}
+
+.issue-status.eligible {
+  background: #fff7df;
+  color: #a15c00;
+}
+
+@media (max-width: 900px) {
+  .payments-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  .payments-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .section-heading {
+    flex-direction: column;
+  }
+
+  .payment-summary {
+    align-self: flex-start;
+  }
+}
