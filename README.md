@@ -26,14 +26,9 @@ ins-manager/
 ## 배포
 
 GitHub Pages에서 `main` 브랜치의 `/ (root)`를 배포합니다.
-<<<<<<< Updated upstream
-배포 재시작
-=======
-
 
 ## v1.1
 
 - 8월부터 다음 해 7월까지 월별 입금금액 표시
 - 납부 개월 수와 총 입금액 요약
 - 입금 여부에 따른 보험증권 발행대상 표시
->>>>>>> Stashed changes
