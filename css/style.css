@@ -507,3 +507,37 @@ h1 {
   font-weight: 900;
 }
 
+/* v1.3: 보험증권 상태 및 PDF 버튼 개선 */
+.document-link {
+  width: 100%;
+  gap: 6px;
+  box-shadow: 0 6px 16px rgba(37, 99, 235, 0.18);
+  transition: transform 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
+}
+
+.document-link::before {
+  content: "📄";
+}
+
+.document-link:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px rgba(37, 99, 235, 0.24);
+}
+
+.document-empty {
+  width: 100%;
+  border: 1px solid #dfe4ea;
+}
+
+.document-eligible {
+  border-color: #f0c56e;
+  background: #fff7df;
+  color: #a15c00;
+}
+
+.document-eligible::before {
+  content: "●";
+  margin-right: 6px;
+  font-size: 10px;
+}
+

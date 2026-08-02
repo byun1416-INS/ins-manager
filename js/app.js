@@ -98,14 +98,23 @@ function setMessage(text, type = "") {
   message.className = `message ${type}`.trim();
 }
 
-function renderDocument(containerId, url) {
+function renderDocument(containerId, url, options = {}) {
   const container = element(containerId);
   container.replaceChildren();
 
+  const {
+    availableLabel = "PDF 열기",
+    unavailableLabel = "미발행",
+    eligible = false,
+    eligibleLabel = "발행대상",
+  } = options;
+
   if (!hasValue(url)) {
     const empty = document.createElement("span");
-    empty.className = "document-empty";
-    empty.textContent = "미발행";
+    empty.className = eligible
+      ? "document-empty document-eligible"
+      : "document-empty";
+    empty.textContent = eligible ? eligibleLabel : unavailableLabel;
     container.appendChild(empty);
     return;
   }
@@ -115,7 +124,7 @@ function renderDocument(containerId, url) {
   link.href = String(url).trim();
   link.target = "_blank";
   link.rel = "noopener noreferrer";
-  link.textContent = "PDF 열기";
+  link.textContent = availableLabel;
   container.appendChild(link);
 }
 
@@ -222,11 +231,11 @@ function renderResult(data) {
   const paymentInfo = renderPayments(data.payments || {});
 
   const issueStatus = element("issueStatus");
-  if (hasValue(data.insurance_certificate_pdf) || hasValue(data.certificate_issued_at)) {
+  if (hasValue(data.insurance_certificate_pdf)) {
     issueStatus.textContent = "보험증권 발행완료";
     issueStatus.className = "issue-status issued";
   } else if (paymentInfo.paidMonthCount > 0) {
-    issueStatus.textContent = "보험증권 발행대상";
+    issueStatus.textContent = "보험증권 발행대상 · 미발행";
     issueStatus.className = "issue-status eligible";
   } else {
     issueStatus.textContent = "납부내역 없음";
@@ -235,12 +244,30 @@ function renderResult(data) {
 
   renderDocument(
     "insuranceCertificatePdf",
-    data.insurance_certificate_pdf
+    data.insurance_certificate_pdf,
+    {
+      availableLabel: "보험증권 열기",
+      eligible: paymentInfo.paidMonthCount > 0,
+      eligibleLabel: "발행대상 · 미발행",
+    }
   );
-  renderDocument("paymentNoticePdf", data.payment_notice_pdf);
+
+  renderDocument(
+    "paymentNoticePdf",
+    data.payment_notice_pdf,
+    {
+      availableLabel: "납부안내문 열기",
+      unavailableLabel: "미발행",
+    }
+  );
+
   renderDocument(
     "guaranteeCertificatePdf",
-    data.guarantee_certificate_pdf
+    data.guarantee_certificate_pdf,
+    {
+      availableLabel: "보증서 열기",
+      unavailableLabel: "미발행",
+    }
   );
 
   resultPanel.classList.remove("hidden");
