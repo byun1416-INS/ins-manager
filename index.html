@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="인스송일헌 내부 보험 조회 시스템">
+  <title>INS Manager</title>
+  <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+  <main class="page-shell">
+    <header class="site-header">
+      <div>
+        <p class="eyebrow">INTERNAL BUSINESS SYSTEM</p>
+        <h1>INS Manager</h1>
+        <p class="subtitle">인스송일헌 내부 보험 조회</p>
+      </div>
+      <div class="status-badge" aria-label="시스템 상태">
+        <span class="status-dot"></span>
+        조회 시스템
+      </div>
+    </header>
+
+    <section class="panel search-panel">
+      <form id="searchForm" novalidate>
+        <div class="search-grid">
+          <label class="field">
+            <span>위탁사명</span>
+            <input
+              id="company"
+              name="company"
+              type="text"
+              autocomplete="organization"
+              placeholder="예: 대원에스테이트"
+              required
+            >
+          </label>
+
+          <label class="field">
+            <span>관리번호</span>
+            <input
+              id="number"
+              name="number"
+              type="text"
+              inputmode="numeric"
+              placeholder="예: 7"
+              required
+            >
+          </label>
+
+          <button id="searchButton" class="primary-button" type="submit">
+            조회
+          </button>
+        </div>
+
+        <p class="helper">위탁사명과 관리번호를 입력한 뒤 Enter를 눌러도 조회됩니다.</p>
+        <div id="message" class="message" aria-live="polite"></div>
+      </form>
+    </section>
+
+    <section id="resultPanel" class="panel result-panel hidden" aria-live="polite">
+      <div class="result-heading">
+        <div>
+          <p class="eyebrow">SEARCH RESULT</p>
+          <h2 id="apartmentName">-</h2>
+          <p id="recordKey" class="record-key">-</p>
+        </div>
+        <span id="issueStatus" class="issue-status">-</span>
+      </div>
+
+      <div class="info-grid">
+        <article class="info-card">
+          <span class="info-label">보험기간</span>
+          <strong id="insurancePeriod">-</strong>
+        </article>
+
+        <article class="info-card">
+          <span class="info-label">보험증권 발행일시</span>
+          <strong id="certificateIssuedAt">-</strong>
+        </article>
+
+        <article class="info-card">
+          <span class="info-label">월보험료</span>
+          <strong id="monthlyPremium">-</strong>
+        </article>
+
+        <article class="info-card">
+          <span class="info-label">직원 구성</span>
+          <strong id="employeeCounts">-</strong>
+        </article>
+
+        <article class="info-card">
+          <span class="info-label">관리소장</span>
+          <strong id="managerNames">-</strong>
+        </article>
+
+        <article class="info-card info-card-wide">
+          <span class="info-label">피보험자 구성원</span>
+          <div id="insuredMembers" class="member-list">-</div>
+        </article>
+      </div>
+
+      <div class="document-grid">
+        <article class="document-card">
+          <div>
+            <span class="document-type">PDF</span>
+            <h3>보험증권</h3>
+          </div>
+          <div id="insuranceCertificatePdf"></div>
+        </article>
+
+        <article class="document-card">
+          <div>
+            <span class="document-type">PDF</span>
+            <h3>납부안내문</h3>
+          </div>
+          <div id="paymentNoticePdf"></div>
+        </article>
+
+        <article class="document-card">
+          <div>
+            <span class="document-type">PDF</span>
+            <h3>보증서</h3>
+          </div>
+          <div id="guaranteeCertificatePdf"></div>
+        </article>
+      </div>
+    </section>
+
+    <footer class="site-footer">
+      INS Manager v1.0
+    </footer>
+  </main>
+
+  <script src="./js/app.js"></script>
+</body>
+</html>
